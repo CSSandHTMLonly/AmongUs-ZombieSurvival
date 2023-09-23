@@ -38,12 +38,12 @@
     position: fixed;
     top: 10px;
     right: 10px;
-    font-size: 1.2em;
+    font-size: 1em;
     color: white;
     z-index: 12;
     padding: 0.3em 0.6em 0.3em 0.6em;
-    border-radius: 20px; box-shadow: 0 0 5px 2px white;
-    background: rgba(0,0,0,0.33); border: 2px solid silver;
+    border-radius: 20px; box-shadow: 0 0 5px 2px white, inset 0 0 5px white;
+    background: rgba(0,0,0,0.33);
     text-shadow: 0 2px 0 black, 0 -2px 0 black, 2px 0 0 black, -2px 0 0 black;
 }
 
@@ -301,7 +301,6 @@ margin-left: 2px;
 
 <body>
 <div id="displayNoneAfterGameStarts">
-
 <button class="start-button" id="startButton" onclick="getElementById('mazeContainor').style.animation='dayAndNight 180s linear infinite'">START GAME</button>
 <div id="gameName"><h1 style="position: absolute; left: 40%; font-weight: bold; color: white; text-shadow: 1px 1px black;">AmongCraft<h1><br><p style="position: absolute; left: 33%; font-weight: normal; font-size: 0.5em; color: white; text-shadow: 1px 1px black;">A mini-game based on Minecraft and Among us!</p></div>
 
@@ -330,6 +329,7 @@ margin-left: 2px;
 
 <input style=" z-index: 12; display: none; position: fixed; bottom: 10px; right: 10px; box-shadow: 0 0 5px white; border: 2px solid dimgrey; padding: 0.5em; color: whitesmoke; background: black;" type="text" id="codeInput" placeholder="Enter commands">
 
+
 <script>
 
         const keyCountElement = document.getElementById("keyCount");
@@ -344,7 +344,6 @@ margin-left: 2px;
           playAgainButton.addEventListener("click", () => {
         location.reload();
     });
-
           const maze = document.getElementById("maze");
         
           const mazeLayout = [
@@ -379,7 +378,6 @@ margin-left: 2px;
     let itemsCollected = 0;
     let playerHealth = 20;
     const totalItemsRequired = 3;
-
 
     function createMaze() {
         maze.innerHTML = "";
@@ -611,7 +609,8 @@ codeInput.addEventListener("input", function () {
   }
 });
 
-document.addEventListener("keydown", event => {
+
+        document.addEventListener("keydown", event => {
         let newPlayerX = playerX;
         let newPlayerY = playerY;
 
@@ -641,7 +640,7 @@ totems.forEach(totem => {
 
         const targetCell = mazeLayout[newPlayerX][newPlayerY];
 
-if (targetCell === "E" && keysCollected === 0) { return; }
+if (targetCell === "E" && keysCollected === 0) return;
 
         if (targetCell !== "#") { 
             player.style.gridRow = newPlayerX + 1;
@@ -809,7 +808,6 @@ if (targetCell !== "#" && targetCell !== "*" && targetCell !== "E") {
 }
 
  if (newZombieX === playerX && newZombieY === playerY) {
-
                 if (hasTotem && playerHealth === 1) {
                     hasTotem = false;
                     playerHealth = 20;
@@ -821,6 +819,8 @@ if (targetCell !== "#" && targetCell !== "*" && targetCell !== "E") {
                 }
             `;
             document.head.appendChild(styleTag);
+
+                    player.style.boxShadow = "none";
                     player.style.animation = "gotHitByZombie 1s linear";
                 }
                 else if (playerHealth > 1) {
@@ -1006,15 +1006,14 @@ function handleArchers() {
 }
     moveZombies();
     moveBunnies();
-    updatePlayerHealthDisplay();
-    handleArchers();
+updatePlayerHealthDisplay();
+handleArchers();
         }
 
     startButton.addEventListener("click", startGame);
 };
 
     </script>
-
 </body>
 
 </html>
