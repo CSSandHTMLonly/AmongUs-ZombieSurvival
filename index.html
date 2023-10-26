@@ -58,17 +58,20 @@
 .inv-td {
 white-space: nowrap;
 display: flex;
-border: 3px solid dimgrey;
-padding: 0.5em 1em 0.5em 1em;
-background: rgba(250,250,250,0.4);
+min-width: 40px;
+height: 37px;
+border: 3px solid black;
+box-shadow: 0 0 0 3px whitesmoke;
+padding: 5px;
+background: rgba(250,250,250,0.75);
 }
 .inv-td:hover {
-box-shadow: inset 0 0 5px black;
+box-shadow: inset 0 0 5px black, 0 0 0 3px whitesmoke;
 }
 .arrow {
     width: 50px;
     height: 50px;
-    background-image: url('https://i.imgur.com/4iYiKJb.png');
+    background-image: url('https://i.imgur.com/l242Z6s.png');
     background-size: cover;
     grid-row-start: 1;
     grid-column-start: 1;
@@ -142,6 +145,19 @@ box-shadow: inset 0 0 5px black;
             z-index: 7;
             background: none;
             transform: scale(0.15);
+}
+.villager {
+            top: -1em;
+            left: -0.75em;
+            width: 47px;
+            height: 55px; 
+            position: absolute;
+            z-index: 7;
+            background: none;
+            transform: scale(0.15);
+}
+.villager:hover {
+cursor: grab;
 }
  .archer {
             top: -1em;
@@ -264,14 +280,56 @@ text-shadow: 1px 1px black;
     animation: itemFloat 1.5s linear infinite;
 }
 .bed {
-    top: 2px;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    z-index: 3;
+    background-image: url('https://i.imgur.com/PbVpNYI.png');
+}
+.bed::before {
+    top: -5px;
+    content: '';
     position: absolute;
     width: 60px;
     height: 45px;
-    z-index: 4;
     transform: scaleX(-1);
     background-size: cover;
+    z-index: 3;
     background-image: url('https://i.imgur.com/3KqRa9y.png');
+}
+
+.book-shelf {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    z-index: 4;
+    background-size: cover;
+    background-image: url('https://i.imgur.com/QGHB1Ga.png');
+}
+.rose-bush {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    z-index: 4;
+    background-size: cover;
+    background-image: url('https://i.imgur.com/pvApyco.png');
+}
+.peony {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    z-index: 4;
+    background-size: cover;
+    background-image: url('https://i.imgur.com/93xkxhI.png');
+}
+.oak {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    z-index: 4;
+    background-size: cover;
+    background-image: url('https://i.imgur.com/8IlzRpp.png');
 }
 .emptyHeart {
     width: 20px;
@@ -281,6 +339,11 @@ text-shadow: 1px 1px black;
     display: inline-block;
     z-index: 12;
     position: absolute;
+}
+@keyframes glowHeart {
+0% {box-shadow: none; filter: brightness(1);}
+50% {box-shadow: 0 0 10px 3px white; filter: brightness(1.2);}
+100% {box-shadow: none; filter: brightness(1);}
 }
 .myHeartDiv {
     width: 10px;
@@ -339,6 +402,9 @@ z-index: 3;
 transform: scale(0.001);
 width: 40px;
 height: 40px;
+animation: despawnAnimation 30s linear;
+animation-fill-mode: forwards;
+
 }
 .deadbody::before {
 position: absolute;
@@ -356,30 +422,57 @@ background-image: url('https://i.imgur.com/birLU9S.png');
 background-size: cover;
 width: 30px; height: 30px;
 z-index: 12;
+filter: opacity(0);
 }
 .tradeBoxDiv {
-width: 50%; top: 100px; left: 25%;
+width: 600px; top: 100px; left: 25%;
 position: fixed;
 z-index: 15;
+font-size: 1rem;
+background: rgba(229,228,226,0.8);
 display: none;
-background: whitesmoke;
-border: 2px solid black; border-radius: 30px;
+overflow: scroll;
+border: 3px solid black;
+box-shadow: 0 0 0 3px white;
 padding: 1em;
 	::-webkit-scrollbar {
-	 display: auto;
+	 display: block;
 	}
 	::-webkit-scrollbar-track {
-	 display: auto;
+	 display: block;
 	}
 	::-webkit-scrollbar-thumb {
-	 display: auto;
+	 display: block;
 	}
 }
 .tradeOption {
-max-width: 100%; max-height: 60px;
-background: red;
-box-shadow: 1px 1px 5px dimgrey;
+max-width: 100%; min-width: 200px;  max-height: 60px;
+background: #32cd32 ;
+box-shadow: 1px 1px 5px black;
 padding: 1rem; margin: 1rem;
+color: white;
+border-radius: 15px;
+transition: 2s;
+}
+.tradeOption:hover {
+transform: scale(1.05);
+filter: brightness(1.3);
+box-shadow: 1px 1px 10px 2px black;
+}
+.deadfood {
+	transform: scale(0.17) scaleY(-1);
+	position: absolute;
+	width: 40px; height: 40px;
+	animation: despawnAnimation 20s linear;
+        animation-fill-mode: forwards;
+	z-index: 6;
+
+}
+@keyframes despawnAnimation {
+	0%{filter: opacity(1);}
+	30%{filter: opacity(1);}
+	99%{filter: opacity(0);}
+	100%{display: none; filter: opacity(0);}
 }
 
     </style>
@@ -398,18 +491,21 @@ padding: 1rem; margin: 1rem;
 	</div>
 </div>
 
-<div id="playerHealthDisplay" style="position: fixed; border: 2px solid black; z-index: 12; top: 10px; left: 10px; background: rgba(250, 250, 250, .4); padding: 5px; border-radius: 20px; width: 250px; box-shadow: 0 0 10px -3px dimgray;">
+<div id="playerHealthDisplay" title="Health" style="position: fixed; border: 2px solid black; z-index: 12; top: 10px; left: 10px; background: rgba(250, 250, 250, .4); padding: 5px; border-radius: 20px; width: 250px; box-shadow: 0 0 10px -3px dimgray;">
 <div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div><div class="myHeartDiv"></div></div>
 
 <table class="inventory">
-<tr><td class="inv-td"><div id="keyCount">🔑</div></td></tr>
-<tr><td class="inv-td"><div style="background-image: url('https://i.imgur.com/wNxH9xR.png'); background-size: cover; width: 20px; height: 20px; margin-right: 5px;"></div><div id="totemCountDiv"></div></td></tr>
-<tr><td class="inv-td"><div style="background-image: url('https://i.imgur.com/E9pMCE0.png'); background-size: cover; width: 20px; height: 20px; margin-right: 5px;"></div><div id="rottenFleshDiv"></div></td></tr>
+<tr><td class="inv-td" title="Key - Used to open doors"><span style="font-size: 1.6em; text-shadow: none;">🔑</span><div id="keyCount"></div></td></tr>
+<tr><td class="inv-td" title="Totem of Undying - Protects the player from dying"><div style="background-image: url('https://i.imgur.com/wNxH9xR.png'); background-size: cover; width: 30px; height: 30px; margin-right: 5px;"></div><div id="totemCountDiv"></div></td></tr>
+<tr><td class="inv-td" title="Rotten Flesh - Dropped by zombies, when killed"><div style="background-image: url('https://i.imgur.com/E9pMCE0.png'); background-size: cover; width: 30px; height: 30px; margin-right: 5px;"></div><div id="rottenFleshDiv"></div></td></tr>
+<tr><td class="inv-td" title="Arrow - Shot with a bow"><div style="background-image: url('https://i.imgur.com/l242Z6s.png'); background-size: cover; width: 30px; height: 30px; margin-right: 5px;"></div><div id="arrowCountDiv"></div></td></tr>
+<tr><td class="inv-td" title="Food Item - Click Q to consumer"><div style="background-image: url('https://i.imgur.com/8j8CDUQ.png'); background-size: cover; width: 31px; height: 31px; margin-right: 5px;"></div><div id="foodCountDiv"></div></td></tr>
 </table>
 
 <table class="tradeBoxDiv" id="tradeBoxDiv">
+<tr><td>Villager<br>Trades</td></tr>
+<tr><td><div class="tradeOption" id="rottenTotem"> 1 TOTEM OF UNDYING <b style="font-size: 1em;">➔</b> 1 BOW</div></td></tr>
 <tr><td><button onclick="closeTradeBox()">CLOSE</button></tr></td>
-<tr><td><button class="tradeOption" id="rottenTotem">Rotten Flesh To Totem</button></td></tr>
 </table>
 
 <div id="victoryPopup" style="display: none; position: absolute; top: 50%; text-align: center">
@@ -459,7 +555,6 @@ document.getElementById('startButton').addEventListener('click', function() {
 function closeTradeBox() {
 document.getElementById('tradeBoxDiv').style.display = "none";
 }
-
 </script>
 <script>
 
@@ -479,27 +574,27 @@ document.getElementById('tradeBoxDiv').style.display = "none";
         
           const mazeLayout = [
 "########################################################################################################",
-"################################################      X                  K#                #          X#",
-"###3  #                                                      ######       #                #           #",
-"##    # Z      ####################****#######            #             #####                          #",
-"#     #        ##########*********#****#***##     #####   #    #####                    ####   #########",
-"#     #        ##########******************##             #    # T #                       ##E##     WT#",
-"#     ######   ##########******************##     #####   #    #  x#             #########K#   #       #",
-"#          #   ##########******************###            #    E   #            ##    A#####   ##E######",
-"#          #   #********#******************               #    #####           ##              ##    X #",
-"#          #   ####*****#******************#####                             A##K y    #####   ###     #",
-"#K         #   *********#*#####################################  ###########################     E     #",
-"#          E   *********#*####D         ################K    X#  #            S#          2#   ###     #",
-"#          #   ####*****#****#      Y   E             W#      #  E             #           #   ##VW    #",
-"#          #   #B##*#####****#         ##    1         #      #  #             #  U        #   #########",
-"#          #   #P  6 K  9****#         #         #######      #  #     W       E           #   #     SV#",
-"#          #   #  8      ****#        ##        #T            #  #######################E###   # K     #",
-"#Z    ###### A #K      7 ****#     #####   X   #                                       # #     E       #",
-"#     #        ################E################                A             ########## ###############",
-"# W   #                     K                                                 #K         #US         K #",
-"##UYV #        ################### #############                              #          #             #",
-"###XS #        ################### #####################E######################                  K     #",
-"#######                                                                      X#          #K            #",
+"################################################      X                  K                 #          X#",
+"###3  #                                         K######################################### #           #",
+"##    # Z      #####E##############****###########  b   b                                              #",
+"#     #        #        #*********#****#****  b b   b b b      #####                      ##   #########",
+"#     #        #        #******************#    b b b b b      # TA#                      K##E##      T#",
+"#     ######   # 7      #******************#  b b b   b b      #  x#             ###########   #       #",
+"#          #   ##########******************#  b b b b b b      E   #            ##    A#####   ##E######",
+"#          #   #********#******************#  b   b b b b      #####           ##              ##    X #",
+"#          #   #********#*****************B#  b b b b b                       #K y    #####   ###      #",
+"#K         #   E********#*#####################################  ###########################     E     #",
+"#          E   #********#*####D         ################K    X#  #            S#          2#   ###     #",
+"#          #   #********#P   #      Y   E             W#      #  E             E           #   ##VW  U #",
+"#          #   #             #         ##    1         #8     #  #             #  U        #   #########",
+"#          #   #  J  K       #         #        ########      #  #     W       #           #   #     SV#",
+"#          #   #             #        ##        #T    K###E####  ####################### ###   # K     #",
+"#Z    ######   #K            #     #####   X   ##                                      # #     E       #",
+"#     #        #E##########E###E################                              ########## ###############",
+"# W   #                     K                                                 #K       # #US         K #",
+"##UYV # A      ##### ###### ###### #############                   A         K#     S  #E#             #",
+"###XS #        ##### ###### ###### #####################E######################          E       K     #",
+"#######      K                                                         K     X#K         #K            #",
 "###################################################################################################### #",
 "#                ##################################################################################### #",
 "# ##############z##################################################################################### #",
@@ -508,39 +603,37 @@ document.getElementById('tradeBoxDiv').style.display = "none";
 "# #################################       ###### ##### ########### ##     #### ################ ########",
 "# #####################             ##### ###### ##### ########### ## ### #### ################ ########",
 "# #############         ################# ###### ##### ########### ## ### #### ################ ########",
-"# ####          ######################### ###### ##### ########### ## ### #### ################ ########",
-"# #### ################################## ###### ##### ########### ## ### #### ################ ########",
-"# ####                        ########### ###### ##### ########### ## ### #### ################ ########",
-"# #### ####### ############## ########### ###### ##### ########### ## ### #### ################ ########",
-"# #### ####### ############## ########### ###### #####             ## ### ####                     #####",
-"# #### ####### ############## ########### ########################### ### ##############################",
-"# #### ####### ############## ########### ########################### ### ###         #             ####",
-"# #### ####### ########                                               ### ### #######   ########### ####",
+"# ####          ################### ##### ###### ##### ########### ## ### #### ################ ########",
+"# #### ############################ ##### ###### ##### ########### ## ### #### ################ ########",
+"# ####                        ##### ##### ###### ##### ########### ## ### #### ################ ########",
+"# #### ####### ############## ##### ##### ###### ##### ########### ## ### #### ################ ########",
+"# #### ####### #     ######## #####       ###### #####             ## ### ####                     #####",
+"# #### ####### # ### ######## ########### ########################### ### ##############################",
+"# #### ####### # ### ######## ########### ########################### ### ###         #             ####",
+"# #### ####### #K###                                                  ### ### #######   ########### ####",
 "# #### ####### ######## ################################################# ### ##################### ####",
 "#      #              # #############################################         #v                    ####",
 "##############E######################################################E##################################",
 "#                                                                                                      #",
+"#   K                                                                                                  #",
 "#                                                                                                      #",
-"#                                                                                                      #",
-"#                                                                                                      #",
-"#                                                                                                      #",
-"#                                                                                                      #",
-"#                                                                                                      #",
-"#                                                                                                      #",
-"#                                                                                                      #",
-"#                                                                                                      #",
-"#                                                                                                      #",
-"#                                                                                                      #",
-"#                                                                                                      #",
+"#OOOOOOOOOO                                       S     OOOOOOOOOOOOOOOOOOO                            #",
+"#OB*******O                   OOOOOOOOOOOOOORRRRRRRRRRRRO*****************O                            #",
+"#O********O                   O************E         J  E*****************O                            #",
+"#O********O                   O************ORRRRRRRRRRRRO*****************O                            #",
+"#O********O                   O************O            O*****************O                            #",
+"#O********O        Z         pO************O            O*****************O                            #",
+"#O********ORRRRRRRRRRRRRRRRRRRO************O            O*****************O                            #",
+"#O********EJ                 JE************O            O*****************O                            #",
+"#O********ORRRRRRRRRRRRRRRRRRRO************O            O****************BO                            #",
+"#OOOOOOOOOORR                pOOOOOOOOOOOOOO            OOOOOOOOOOOOOOOOOOO                            #",
 "########################################################################################################"
           ];
         
-    var hasTotem = 0;
-    var keysCollected = 0;
-    var rottenFlesh = 0;
+
     var totalKeys = 30;
     var itemsCollected = 0;
-    var playerHealth = 20;
+    var playerHealth = 20; 
     const totalItemsRequired = 3;
 
     function createMaze() {
@@ -580,29 +673,56 @@ playerWrapper.appendChild(pbow);
 
 
 if (cell === "B") {
-     cellElement.className = "bed";
+  cellElement.className = "bed";
 }
-                if (cell === "6" || cell === "7" || cell === "8" || cell === "9"){
+
+if (cell === "b") {
+     cellElement.className = "book-shelf";
+}
+if (cell === "p") {
+     cellElement.className = "peony";
+}if (cell === "R") {
+     cellElement.className = "rose-bush";
+}if (cell === "O") {
+     cellElement.className = "oak";
+}
+                if (cell === "6" || cell === "7" || cell === "8" || cell === "9") {
                     const food = document.createElement("div");
                     food.className = "food";
                     food.style.gridRow = rowIndex + 1;
                     food.style.gridColumn = columnIndex + 1;
                     const foodImage = document.createElement("img");
                     if (cell === "6") {
-                        foodImage.src = "https://i.imgur.com/nJcszO1.png";
-			foodImage.style.transform = "scale(5)";
-			 if (cell === "7") {
-                        foodImage.src = "https://i.imgur.com/CGO9aHi.png";
+                        foodImage.src = "https://i.imgur.com/FqgFdD4.png";
+			foodImage.style.transform = "scale(1.5)";
+			}
+		    else if (cell === "7") {
+                        foodImage.src = "https://i.imgur.com/JQCr04Z.png";
+			foodImage.style.transform = "scale(3)";
                     }
-                    } else if (cell === "8") {
-                        foodImage.src = "https://i.imgur.com/DIEg8gb.png";
-			foodImage.style.transform = "scale(5)";
-                    } else if (cell === "9") {
-                        foodImage.src = "https://i.imgur.com/YBnni30.png";
-			foodImage.style.transform = "scale(5)";
+                     else if (cell === "8") {
+                        foodImage.src = "https://i.imgur.com/8Wsfyff.png";
+			foodImage.style.transform = "scale(2)";
+                    } 
+			else if (cell === "9") {
+                        foodImage.src = "https://i.imgur.com/Dv1J1b3.png";
+			foodImage.style.transform = "scale(4)";
                        }
                     food.appendChild(foodImage);
                     maze.appendChild(food);
+                }
+                if (cell === "J") {
+                    const villager = document.createElement("div");
+                    villager.className = "villager";
+                    villager.style.gridRow = rowIndex + 1;
+                    villager.style.gridColumn = columnIndex + 1;
+                    const villagerImage = document.createElement("img");
+                    if (cell === "J") {
+                        villagerImage.src = "https://i.imgur.com/gLEgHUS.png";
+			villagerImage.style.transform = "scale(1.5)";
+			}
+                    villager.appendChild(villagerImage);
+                    maze.appendChild(villager);
                 }
                 if (cell === "X" || cell === "Y" || cell === "Z" || cell === "V" || cell === "W" || cell === "U" || cell === "S"){
                     const zombie = document.createElement("div");
@@ -742,6 +862,8 @@ function startGame() {
     let hasTotem = 0;
     let keysCollected = 0;
     let rottenFlesh = 0;
+    let foodStuff = 0;
+    let numArrow = 10;
     itemsCollected = 0;
     displayNoneAfterGameStarts.style.display = "none";
     startButton.style.display = "none";
@@ -759,7 +881,7 @@ function startGame() {
 
 
 
-   document.addEventListener("keydown", event => { 
+document.addEventListener("keydown", event => { 
         let newPlayerX = playerX;
         let newPlayerY = playerY;
 
@@ -780,8 +902,37 @@ player.style.animation = "none";
 }
 
 if (event.altKey) {
-                toggleFullscreen();
-            }
+ oggleFullscreen();
+}
+
+if (event.code === "KeyQ") {
+ if (foodStuff > 0) {
+  const heartk = document.getElementById("playerHealthDisplay");
+  heartk.style.animation = "glowHeart 1s linear";
+
+	if (playerHealth < 15) {
+	playerHealth += 5;
+	foodStuff--; 
+	updatePlayerHealthDisplay();  }
+	else if (playerHealth < 16) {
+	playerHealth += 4;
+	foodStuff--; 
+	updatePlayerHealthDisplay();  }
+	else if (playerHealth < 17) {
+	playerHealth += 3;
+	foodStuff--; 
+	updatePlayerHealthDisplay();  }
+	else if (playerHealth < 18) {
+	playerHealth += 2;
+	foodStuff--; 
+	updatePlayerHealthDisplay();  }
+	else if (playerHealth < 19) {
+	playerHealth += 1;
+	foodStuff--; 
+	updatePlayerHealthDisplay();  }
+  }
+}
+
 });
         function toggleFullscreen() {
             if (document.fullscreenElement) {
@@ -804,18 +955,45 @@ document.addEventListener("keydown", event => {
 });
 });
 
-let hasBow = true; 
+
+
+const villagers = document.querySelectorAll(".villager");
+villagers.forEach(villager => {
+    villager.addEventListener("mouseover", function() {
+        const tradeJavs = document.getElementById("tradeBoxDiv");
+        tradeJavs.style.display = "block";
+    });
+});
+
+
+const rotTot = document.getElementById("rottenTotem");
+rotTot.addEventListener("click", function() {
+if (hasTotem > 0 && bowStart < 1) {
+	bowStart++;
+	hasTotem--;
+                const styleTag = document.createElement('style');
+            styleTag.textContent = `
+.bowDivCss {filter: opacity(1);}
+            `;
+            document.head.appendChild(styleTag);
+}
+});
+
+
 let arrowDirection = '';
-if (hasBow === true) {
+let bowStart = 0;
+
 document.addEventListener("keydown", event => {
     if (event.key === "i") { arrowDirection = 'up'; shootArrow(arrowDirection);}
     else if (event.key === "k") { arrowDirection = 'down'; shootArrow(arrowDirection); }
     else if (event.key === "j") { arrowDirection = 'left'; shootArrow(arrowDirection); }
     else if (event.key === "l") { arrowDirection = 'right'; shootArrow(arrowDirection); }
 });
-}
+
 
 function shootArrow(direction) {
+
+if (bowStart > 0) {
     const arrow = document.createElement("div");
     arrow.className = "arrow";
     arrow.style.gridRow = player.style.gridRow;
@@ -853,6 +1031,7 @@ function shootArrow(direction) {
             arrow.remove();
         }
     }, 50);
+	}
 }
 
 function checkCollision(arrow) {
@@ -867,6 +1046,18 @@ function checkCollision(arrow) {
         if (arrowRow === zombieRow && arrowCol === zombieCol) {
          rottenFlesh++;
         zombie.className = "deadbody";
+
+         return true;
+        }
+    }
+
+    const foods = document.querySelectorAll(".food");
+    for (let food of foods) {
+        let foodRow = parseInt(food.style.gridRow);
+        let foodCol = parseInt(food.style.gridColumn);
+        if (arrowRow === foodRow && arrowCol === foodCol) {
+         foodStuff++;
+        food.className = "deadfood";
 
          return true;
         }
@@ -917,7 +1108,6 @@ codeInput.addEventListener("input", function () {
 
 
 
-
 document.addEventListener("keydown", event => {
         let newPlayerX = playerX;
         let newPlayerY = playerY;
@@ -943,6 +1133,8 @@ totems.forEach(totem => {
         const targetCell = mazeLayout[newPlayerX][newPlayerY];
 
 if (targetCell === "E" && keysCollected === 0) return;
+if (targetCell === "b") return;
+if (targetCell === "O") return;
 
         if (targetCell !== "#") { 
             player.style.gridRow = newPlayerX + 1;
@@ -950,7 +1142,7 @@ if (targetCell === "E" && keysCollected === 0) return;
             playerX = newPlayerX;
             playerY = newPlayerY;
 
-            player.scrollIntoView({
+player.scrollIntoView({
         behavior: "auto",
         block: "center",
         inline: "center"
@@ -1045,11 +1237,13 @@ if (hasTotem > 0) {
         const rottenFleshElement = document.getElementById("rottenFleshDiv");
 	const totemElement = document.getElementById("totemCountDiv");
 	const arrowElement = document.getElementById("arrowCountDiv");
+	const foodElement = document.getElementById("foodCountDiv");
 
-        keyCountElement.textContent = `🔑 ${keysCollected}`;
+        keyCountElement.textContent = `${keysCollected}`;
         rottenFleshElement.textContent = `${rottenFlesh}`;
         totemElement.textContent = `${hasTotem}`;
         arrowElement.textContent = `${numArrow}`;
+        foodElement.textContent = `${foodStuff}`;
     });
 
      const mazeContainer = document.querySelector(".maze-container");
@@ -1081,11 +1275,11 @@ function getBrightness(element) {
     const mazeContainor = document.querySelector("#mazeContainor");
     const brightness = getBrightness(mazeContainor);
 
-    let noticeDistance = 3;
-    let intervalZombie = 600;
+    let noticeDistance = 4;
+    let intervalZombie = 500;
 
     if (brightness < 0.51) {
-        noticeDistance = 10; 
+        noticeDistance = 18; 
         intervalZombie = 200; 
     }
 let zombies = document.querySelectorAll(".zombie");
@@ -1103,7 +1297,8 @@ let zombies = document.querySelectorAll(".zombie");
                 else if (zombieX > playerX && mazeLayout[zombieX - 1][zombieY] !== "#") newZombieX--;
                 if (zombieY < playerY && mazeLayout[zombieX][zombieY + 1] !== "#") newZombieY++;
                 else if (zombieY > playerY && mazeLayout[zombieX][zombieY - 1] !== "#") newZombieY--;
-            } else {
+            } 
+            else {
                 const randomDirection = getRandomInt(0, 3);
                 if (randomDirection === 0 && mazeLayout[zombieX + 1][zombieY] !== "#") newZombieX++;
                 else if (randomDirection === 1 && mazeLayout[zombieX - 1][zombieY] !== "#") newZombieX--;
@@ -1113,7 +1308,7 @@ let zombies = document.querySelectorAll(".zombie");
 
 // These are the places where the zombie cannot go! :D
 const targetCell = mazeLayout[newZombieX][newZombieY];
-if (targetCell !== "#" && targetCell !== "*" && targetCell !== "E") {
+if (targetCell !== "#" && targetCell !== "*" && targetCell !== "E" && targetCell !== "b") {
     zombie.style.gridRow = newZombieX + 1;
     zombie.style.gridColumn = newZombieY + 1;
 }
@@ -1151,6 +1346,91 @@ if (targetCell !== "#" && targetCell !== "*" && targetCell !== "E") {
     }
 
 
+function moveVillagers() {
+    let zombies = document.querySelectorAll(".zombie");
+    let villagers = document.querySelectorAll(".villager");
+
+    villagers.forEach((villager) => {
+        const villagerX = parseInt(villager.style.gridRow) - 1;
+        const villagerY = parseInt(villager.style.gridColumn) - 1;
+
+        let bestScore = -Infinity;
+        let bestMove = null;
+
+        const moves = [
+            { x: 1, y: 0 },  // Down
+            { x: -1, y: 0 }, // Up
+            { x: 0, y: 1 },  // Right
+            { x: 0, y: -1 }  // Left
+        ];
+
+        moves.forEach(move => {
+            const newX = villagerX + move.x;
+            const newY = villagerY + move.y;
+
+            if (mazeLayout[newX] && mazeLayout[newX][newY] !== "#" && mazeLayout[newX][newY] !== "O" && mazeLayout[newX][newY] !== "R" && mazeLayout[newX][newY] !== "b") {
+                let score = 0;
+
+                zombies.forEach(zombie => {
+                    const zombieX = parseInt(zombie.style.gridRow) - 1;
+                    const zombieY = parseInt(zombie.style.gridColumn) - 1;
+                    const distance = Math.abs(newX - zombieX) + Math.abs(newY - zombieY);
+
+                    if (distance <= 5) {
+                        score -= (6 - distance) * 100;
+                    } else if (distance <= 20) {
+                        score -= (21 - distance) * 10; 
+                    }
+
+                });
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = move;
+                }
+            }
+        });
+
+        if (bestMove) {
+            villager.style.gridRow = villagerX + bestMove.x + 1;
+            villager.style.gridColumn = villagerY + bestMove.y + 1;
+        }
+    });
+ 
+
+
+    if (gameRunning) {
+        setTimeout(moveVillagers, 550);
+    }
+}
+
+
+
+
+
+function foodStuffCounter() {
+let foods = document.querySelectorAll(".food");
+ foods.forEach((food, index) => {
+ 
+            const foodX = parseInt(food.style.gridRow) - 1;
+            const foodY = parseInt(food.style.gridColumn) - 1;
+
+            let newFoodX = foodX;
+            let newFoodY = foodY;
+
+
+ if (playerX === newFoodX && playerY === newFoodY) {
+	foodStuff++;
+        food.className = "deadfood";
+
+}
+});
+       if (gameRunning) {
+            setTimeout(foodStuffCounter, 25);
+        }
+    }
+
+
 function moveFoods() {
 let foods = document.querySelectorAll(".food");
        foods.forEach((food, index) => {
@@ -1161,7 +1441,7 @@ let foods = document.querySelectorAll(".food");
             let newFoodX = foodX;
             let newFoodY = foodY;
 
-const MAX_DEPTH = 7;
+const MAX_DEPTH = 6;
 const playerDistance = Math.abs(playerX - foodX) + Math.abs(playerY - foodY);
 
 function evaluateMove(x, y, depth) {
@@ -1192,7 +1472,7 @@ function evaluateMove(x, y, depth) {
     return Math.max(...scores) + distance;
 }
 
-if (playerDistance <= 50) {
+if (playerDistance <= 14) {
     let possibleMoves = [
         { x: -1, y: 0, score: 0 },
         { x: 1, y: 0, score: 0 },
@@ -1205,27 +1485,26 @@ if (playerDistance <= 50) {
         let newY = foodY + move.y;
 
         move.score += evaluateMove(newX, newY, 0);
-    });
+   });
 
     possibleMoves.sort((a, b) => b.score - a.score);
 
     newFoodX += possibleMoves[0].x;
     newFoodY += possibleMoves[0].y;
+
 }
 
 
+
 const targetCell = mazeLayout[newFoodX][newFoodY];
-if (targetCell !== "#" && targetCell !== "A" && targetCell !== "E") {
+if (targetCell !== "#" && targetCell !== "A" && targetCell !== "E" && targetCell !== "b") {
     food.style.gridRow = newFoodX + 1;
     food.style.gridColumn = newFoodY + 1;
 }
 
- if (newFoodX === playerX && newFoodY === playerY) {
- }
-
 });
 	 if (gameRunning) {
-            setTimeout(moveFoods, 500);
+            setTimeout(moveFoods, 150);
         }
     }
 
@@ -1248,7 +1527,7 @@ let bunnies = document.querySelectorAll(".bunny");
             }
 
            const targetCell = mazeLayout[newBunnyX][newBunnyY];
-if (targetCell !== "#" && targetCell !== "E") {
+if (targetCell !== "#" && targetCell !== "E" && targetCell !== "b") {
     bunny.style.gridRow = newBunnyX + 1;
     bunny.style.gridColumn = newBunnyY + 1;
 }
@@ -1385,7 +1664,7 @@ function generateZombie() {
     });
 
     if (emptySpaces.length === 0) {
-        return; // No space to add more zombies
+        return; 
     }
 
     const randomIndex = Math.floor(Math.random() * emptySpaces.length);
@@ -1441,6 +1720,63 @@ function generateZombie() {
 
 setInterval(generateZombie, 20000); 
 
+function generateFood() {
+    const emptySpaces = [];
+
+    mazeLayout.forEach((row, rowIndex) => {
+        row.split("").forEach((cell, columnIndex) => {
+            if (cell === " ") {
+                emptySpaces.push([rowIndex, columnIndex]);
+            }
+        });
+    });
+
+    if (emptySpaces.length === 0) {
+        return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * emptySpaces.length);
+    const [randomRow, randomCol] = emptySpaces[randomIndex];
+
+
+    const foodTypes = ["6", "7", "8", "9"];
+    const randomFood = foodTypes[Math.floor(Math.random() * foodTypes.length)];
+
+
+    mazeLayout[randomRow] = mazeLayout[randomRow].substring(0, randomCol) + randomFood + mazeLayout[randomRow].substring(randomCol + 1);
+
+
+    const food = document.createElement("div");
+    food.className = "food";
+    food.style.gridRow = randomRow + 1;
+    food.style.gridColumn = randomCol + 1;
+    const foodImage = document.createElement("img");
+    switch (randomFood) {
+        case "6":
+           foodImage.src = "https://i.imgur.com/FqgFdD4.png";
+			foodImage.style.transform = "scale(1.5)";
+            break;
+        case "7":
+             foodImage.src = "https://i.imgur.com/JQCr04Z.png";
+			foodImage.style.transform = "scale(3)";
+            break;
+ case "8":
+      foodImage.src = "https://i.imgur.com/8Wsfyff.png";
+	foodImage.style.transform = "scale(2)";
+
+            break;
+ case "9":
+                  foodImage.src = "https://i.imgur.com/Dv1J1b3.png";
+			foodImage.style.transform = "scale(4)";
+            break;
+}
+
+    food.appendChild(foodImage);
+    maze.appendChild(food);
+}
+
+setInterval(generateFood, 30000);
+
 // https://i.imgur.com/gLEgHUS.png
     
    function endGame(playerWon = false) {
@@ -1460,10 +1796,12 @@ setInterval(generateZombie, 20000);
     }
 }
 	moveZombies();
+	moveVillagers();
 	moveFoods();
 	moveBunnies();
 	updatePlayerHealthDisplay();
 	handleArchers();
+	foodStuffCounter();
 }
 
 
